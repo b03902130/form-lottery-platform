@@ -3,6 +3,10 @@
   padding: 30px 0
 }
 
+a {
+  margin: 5px
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;

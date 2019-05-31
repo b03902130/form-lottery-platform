@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
 
 import './App.css';
 import { 
@@ -12,6 +12,7 @@ import {
 import SignUp from '../signup/signup';
 import LogIn from '../login/login';
 import Home from '../content/Home';
+import Dashboard from '../content/Dashboard'; 
 import RESTAPIUrl from '../config/config';
 
 import Axios from 'axios';
@@ -80,10 +81,19 @@ class App extends Component {
 
 
   render() {
+    let logoutlink = `${RESTAPIUrl}/api/account/logout`
     return (
       <div className="App">
-        <BrowserRouter> {this.state.loggedIn ? 
-            <Home /> 
+        <BrowserRouter> {this.state.loggedIn ?
+            <div>
+              <Link to='/'>Home</Link>
+              <Link to='/dashboard'>Dashboard</Link>
+              <a href={logoutlink}>logout</a>
+              <Switch>
+                <Route exact path='/' component={Home} />
+                <Route exact path='/dashboard' component={Dashboard} />
+              </Switch>
+            </div>
             :
             <Grid>
               <Row>
