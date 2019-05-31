@@ -4,10 +4,8 @@ const UserSession = require('../../models/UserSession');
 module.exports = (app) => {
     //SignUp
     app.post('/api/account/signup', (req, res, next) => {
-        console.log("mhjjhfkjh");
-        const body = req.body;
-        console.log(body);
-        
+        const body = req.body; 
+        console.log(body); 
         const {
             password
         } = body;
@@ -165,7 +163,6 @@ module.exports = (app) => {
     app.get('/api/account/logout', (req, res, next) => {
         const { query } = req; 
         const { token } = query;
-        
         UserSession.findOneAndUpdate({
             _id: token,
             isDeleted: false,
@@ -221,7 +218,4 @@ module.exports = (app) => {
       }
     });
   });
-    
-        
-    
 };

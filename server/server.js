@@ -2,12 +2,10 @@ const express = require('express');
 const fs = require('fs');
 
 const mongoose = require('mongoose');
+mongoose.set('useFindAndModify', false);
+
 const path = require('path');
-
-
 const config = require('../config/config');
-
-
 
 const port  = config.RESTAPIport;
 const cors = require('cors');
@@ -16,7 +14,7 @@ const cors = require('cors');
 // ================================================================================================
 
 // Set up Mongoose
-mongoose.connect(config.db);
+mongoose.connect(config.db, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 
 const app = express();
@@ -26,8 +24,6 @@ app.use(cors());
 
 // API routes
 require('./routes')(app);
-
-
 
 app.use(express.static(path.resolve(__dirname, '../build')));
 
@@ -41,7 +37,6 @@ app.listen(port, '0.0.0.0', (err) => {
   if (err) {
     console.log(err);
   }
-
   console.info('Open http://localhost:%s/ in your browser.', port);
 });
 
