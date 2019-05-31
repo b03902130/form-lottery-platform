@@ -6,12 +6,10 @@ import {
   Button,
   Alert,
 } from 'react-bootstrap';
-import 'whatwg-fetch';
-import {
-  setInStorage,
-} from '../utils/storage';
 import RESTAPIUrl from '../config/config';
 
+import Axios from 'axios';
+Axios.defaults.withCredentials = true;
 
 class LogIn extends Component {
 
@@ -75,22 +73,11 @@ class LogIn extends Component {
       logInLoading: true,
     });
 
-    fetch( RESTAPIUrl + '/api/account/signin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    }).then(res => res.json())
+    Axios.post( RESTAPIUrl + '/api/account/signin', {email: email, password: password})
       .then(json => {
-        console.log('json', json);
+        json = json.data
         if (json.success) {
-          setInStorage('the_login_n_signup', { token: json.token, name: json.name });
           this.setState({
-            signInError: 'Welcome ' + json.name + '!',
             logInLoading: false,
             password: '',
             email: '',
@@ -102,7 +89,6 @@ class LogIn extends Component {
           this.props.stateChanger({
             loggedIn: true,
             token: json.token,
-            loggedInName: json.name,
             logOutButtonStatus: 'warning',
           });
         } else {

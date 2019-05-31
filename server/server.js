@@ -1,23 +1,30 @@
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-const cors = require('cors');
-const logger = require("morgan");
+var express = require('express');
+var fs = require('fs');
+var path = require('path');
+var cors = require('cors');
+var logger = require("morgan");
+var session = require('express-session');
 
 // Parse env variables
 require('dotenv').config()
 
 // Connect to database
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 mongoose.set('useFindAndModify', false);
 mongoose.connect(process.env.DB, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 
-const app = express();
+var app = express();
 app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: ['http://linux1.csie.ntu.edu.tw:8089'],
+  methods: ['GET', 'POST', 'DELETE', 'PUT'],
+  credentials: true // enable set cookie
+}));
+
+app.use(session({ secret: "cnl4finalproject", resave: false, saveUninitialized: false}));
 
 // API routes
 require('./routes')(app);

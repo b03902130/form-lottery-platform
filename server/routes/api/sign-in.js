@@ -113,7 +113,7 @@ module.exports = (app) => {
 
   app.post('/api/account/signin', (req, res, next) => {
     const { body } = req;
-
+  
     const {
       password
     } = body;
@@ -121,7 +121,7 @@ module.exports = (app) => {
     let {
       email
     } = body;
-
+    
     if (!email) {
       return res.status(300).send({
         message: 'Error: Email cannot be blank.',
@@ -175,25 +175,12 @@ module.exports = (app) => {
             respId: 'LIE5',
           });
         } else {
-          const userSession = new UserSession();
-          userSession.userId = user._id;
-          userSession.save((err, doc) => {
-            if (err) {
-              console.log(err);
-              return res.send({
-                success: false,
-                message: 'Error: Server Error',
-                respId: 'LIE6',
-              });
-            } else {
-              return res.send({
-                success: true,
-                message: 'Valid sign in',
-                token: doc._id,
-                name: user.name,
-                respId: 'LIS',
-              });
-            }
+          req.session.userId = user._id
+          req.session.name = user.name
+          return res.send({
+            success: true,
+            message: 'Valid sign in',
+            respId: 'LIS',
           });
         }
       }
@@ -201,61 +188,27 @@ module.exports = (app) => {
   });
 
   app.get('/api/account/logout', (req, res, next) => {
-    const { query } = req;
-    const { token } = query;
-    UserSession.findOneAndUpdate({
-      _id: token,
-      isDeleted: false,
-    }, {
-      $set: {
-        isDeleted: true,
-      }
-    }, null, (err, sessions) => {
-      if (err) {
-        console.log(err);
-        return res.send({
-          success: false,
-          message: 'Error: Server Error',
-        });
-      } else {
-        return res.send({
-          success: true,
-          message: 'Logged Out',
-        });
-      }
-    });
-
-  });
+    req.session.destroy(() => {
+      return res.send({
+        success: true,
+        message: 'Logged Out',
+      });
+    })
+  })
 
   app.get('/api/account/verify', (req, res, next) => {
-    // Get the token
-    const { query } = req;
-    const { token } = query;
-    // ?token=test
     // Verify the token is one of a kind and it's not deleted.
-    UserSession.find({
-      _id: token,
-      isDeleted: false
-    }, (err, sessions) => {
-      if (err) {
-        console.log(err);
-        return res.send({
-          success: false,
-          message: 'Error: Server error'
-        });
-      }
-      if (sessions.length != 1) {
-        return res.send({
-          success: false,
-          message: 'Error: Invalid'
-        });
-      } else {
-        // DO ACTION
-        return res.send({
-          success: true,
-          message: 'Good'
-        });
-      }
-    });
+    if (req.session.userId) {
+      return res.send({
+        success: true,
+        message: 'Good'
+      });
+    }
+    else {
+      return res.send({
+        success: false,
+        message: 'Error: Invalid'
+      });
+    }
   });
 };

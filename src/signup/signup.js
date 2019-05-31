@@ -7,8 +7,10 @@ import {
   Button,
   Alert,
 } from 'react-bootstrap';
-import 'whatwg-fetch';
 import RESTAPIUrl from '../config/config';
+
+import Axios from 'axios';
+Axios.defaults.withCredentials = true;
 
 class SignUp extends Component {
 
@@ -110,24 +112,15 @@ class SignUp extends Component {
 
   signUpClicked(e) {
     this.setState({ signInLoading : true });
-    //console.log(e);
     const newUser = {
       password: this.state.password,
       name: this.state.name,
       email: this.state.email,
     };
 
-    fetch( RESTAPIUrl+"/api/account/signup", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newUser),
-    })
-      .then(res => res.json())
+    Axios.post( RESTAPIUrl+"/api/account/signup", newUser)
       .then(json => {
-        console.log('json', json);
-
+        json = json.data
         if(json.message === "Signed Up") {
           this.setState({
             signInLoading: false,
