@@ -1,23 +1,20 @@
 const express = require('express');
 const fs = require('fs');
+const path = require('path');
+const cors = require('cors');
+const logger = require("morgan");
 
+// Parse env variables
+require('dotenv').config()
+
+// Connect to database
 const mongoose = require('mongoose');
 mongoose.set('useFindAndModify', false);
-
-const path = require('path');
-const config = require('../config/config');
-
-const port = config.RESTAPIport;
-const cors = require('cors');
-
-// Configuration
-// ================================================================================================
-
-// Set up Mongoose
-mongoose.connect(config.db, { useNewUrlParser: true });
+mongoose.connect(process.env.DB, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 
 const app = express();
+app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
@@ -33,11 +30,11 @@ app.get('*', function (req, res) {
 });
 
 
-app.listen(port, '0.0.0.0', (err) => {
+app.listen(process.env.PORT, process.env.HOST, (err) => {
   if (err) {
     console.log(err);
   }
-  console.info('Open http://localhost:%s/ in your browser.', port);
+  console.info(`Open http://${process.env.HOST}:${process.env.PORT}/ in your browser`);
 });
 
 module.exports = app;

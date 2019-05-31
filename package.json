@@ -7,6 +7,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "mongoose": "^5.4.4",
+    "morgan": "^1.9.1",
     "nodemailer": "^6.2.1",
     "nodemon": "^1.19.1",
     "react": "^16.7.0",
@@ -21,12 +22,16 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "startAPI": "nodemon server/server"
+    "server": "nodemon server/server",
+    "debug": "node inspect server/server"
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "node-inspect": "^1.11.5"
+  }
 }

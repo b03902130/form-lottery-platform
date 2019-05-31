@@ -79,7 +79,7 @@ module.exports = (app) => {
                                 from: 'cnl4ntucsie@gmail.com',
                                 to: newUser.email,
                                 subject: 'Activation Link',
-                                text: 'Here is your link: http://linux1.csie.ntu.edu.tw:8080/api/account/activate?token=' + newUser.activation
+                                text: `Click to activate: http://${process.env.HOST}:${process.env.PORT}/api/account/activate?token=${newUser.activation}`
                             };
                             transporter.sendMail(mailOptions, function (error, info) {
                                 if (error) {
@@ -100,10 +100,15 @@ module.exports = (app) => {
     });
 
     app.get('/api/account/activate', (req, res, next) => {
-        console.log('get activation link')
-        return res.status(200).send({
-            message: "Account activated"
-        });
+        let token = req.query.token
+        User.findOneAndUpdate({activation: token}, {isActivated: true}).catch(err => {console.log(err)}).then(doc => {
+          if (doc === null) {
+            return res.status(400).send('<h1>Account not existed</h1>')
+          }
+          else {
+            return res.status(200).send(`<h1>Account activated</h1><p style="margin-left:10px">You can <a href="http://${process.env.HOST}:${process.env.PORT}">login</a> now</p>`);
+          }
+        })
     })
 
     app.post('/api/account/signin', (req, res, next) => {
