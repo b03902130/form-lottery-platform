@@ -144,7 +144,7 @@ module.exports = (app) => {
       email: email
     }, (err, users) => {
       if (err) {
-        console.log('err2:', err);
+        console.log(err);
         return res.send({
           success: false,
           message: 'Error: server error',
@@ -155,12 +155,19 @@ module.exports = (app) => {
       if (users.length != 1) {
         return res.send({
           success: false,
-          message: 'Error: Invalid',
+          message: 'Error: Account not existed',
           respId: 'LIE4',
         });
       } else {
         const user = users[0];
-        console.log(password, user.password);
+        if (!user.isActivated) {
+          return res.send({
+            success: false,
+            message: `Error: Account not activated`,
+            respId: 'LIE5',
+          });
+        }
+
         if (!user.validPassword(password)) {
           return res.send({
             success: false,
