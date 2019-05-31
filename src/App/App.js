@@ -26,7 +26,7 @@ class App extends Component {
     this.state = {
       loggedIn: false,
       token: '',
-      loggedInName: 'Unnamed Ashok Kumar',
+      loggedInName: 'Unnamed',
       logOutButtonStatus: 'warning',
       logOutLoadingMessage: 'Log Out',
       logOutLoading: false,
@@ -106,11 +106,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-
-          <h1 className="App-title">Login Or Sign-Up</h1>
-        </header>
         <Grid>
           <Row>
             <Col md={4}></Col>
@@ -127,7 +122,6 @@ class App extends Component {
                   </Button>
                 </div>
                   : 
-
                   <div className = "loginBoxContainer">
                     <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
                       <Tab eventKey={1} title="Login" className="tabContent">
