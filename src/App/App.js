@@ -30,9 +30,6 @@ class App extends Component {
       logOutButtonStatus: 'warning',
       logOutLoadingMessage: 'Log Out',
       logOutLoading: false,
-
-
-
     }
   }
 

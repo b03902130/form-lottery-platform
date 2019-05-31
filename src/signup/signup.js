@@ -40,8 +40,7 @@ class SignUp extends Component {
       signInLoading: false,
       show: false,
       signupStatus: 'success',
-      signUpMessage: 'You have signed up successfully. Proceed to login.',
-
+      signUpMessage: 'You have signed up successfully. Please check your email for activation.',
     };
   }
 
@@ -134,7 +133,7 @@ class SignUp extends Component {
             signInLoading: false,
             show: true,
             signupStatus: 'success',
-            signUpMessage: 'You have signed up successfully. Proceed to login.',
+            signUpMessage: 'You have signed up successfully. Please check your email for activation.',
             name: '',
             password: '',
             confPass: '',
@@ -146,7 +145,7 @@ class SignUp extends Component {
             signInLoading: false,
             show: true,
             signupStatus: 'warning',
-            signUpMessage: 'Account already Exists. Procced to login',  
+            signUpMessage: 'Account already Exists.',  
             name: '',
             password: '',
             confPass: '',
