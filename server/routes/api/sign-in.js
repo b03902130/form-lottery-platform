@@ -189,10 +189,7 @@ module.exports = (app) => {
 
   app.get('/api/account/logout', (req, res, next) => {
     req.session.destroy(() => {
-      return res.send({
-        success: true,
-        message: 'Logged Out',
-      });
+      return res.redirect(`http://${process.env.HOST}:${process.env.REACT}`);
     })
   })
 

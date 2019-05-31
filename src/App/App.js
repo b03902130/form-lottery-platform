@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {BrowserRouter} from 'react-router-dom';
+
 import './App.css';
 import { 
   Grid, 
@@ -9,7 +11,9 @@ import {
 } from 'react-bootstrap'; 
 import SignUp from '../signup/signup';
 import LogIn from '../login/login';
+import Home from '../content/Home';
 import RESTAPIUrl from '../config/config';
+
 import Axios from 'axios';
 Axios.defaults.withCredentials = true;
 
@@ -78,35 +82,35 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-          {this.state.loggedIn ? 
-              <h1>You are logged in</h1>
-              :
-              <Grid>
-                <Row>
-                  <Col xs={12} md={4}>
-                    <div className = "loginBoxContainer">
-                      <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-                        <Tab eventKey={1} title="Login" className="tabContent">
-                          <LogIn stateChanger = {this.stateChanger}/>
-                        </Tab>
-                        <Tab eventKey={2} title="Sign Up" className="tabContent">
-                          <SignUp />
-                        </Tab>
-                      </Tabs>
-                    </div>
-                  </Col>
-                  <Col xs={12} md={8}>
-                    <div className="popularForms">
-                      <p>form 1</p>
-                      <p>form 2</p>
-                      <p>form 3</p>
-                      <p>form 4</p>
-                    </div>
-                  </Col>
-                </Row>
-              </Grid>
-          }
-            </div>
+        <BrowserRouter> {this.state.loggedIn ? 
+            <Home /> 
+            :
+            <Grid>
+              <Row>
+                <Col xs={12} md={4}>
+                  <div className = "loginBoxContainer">
+                    <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
+                      <Tab eventKey={1} title="Login" className="tabContent">
+                        <LogIn stateChanger = {this.stateChanger}/>
+                      </Tab>
+                      <Tab eventKey={2} title="Sign Up" className="tabContent">
+                        <SignUp />
+                      </Tab>
+                    </Tabs>
+                  </div>
+                </Col>
+                <Col xs={12} md={8}>
+                  <div className="popularForms">
+                    <p>form 1</p>
+                    <p>form 2</p>
+                    <p>form 3</p>
+                    <p>form 4</p>
+                  </div>
+                </Col>
+              </Row>
+              </Grid>}
+            </BrowserRouter>
+          </div>
     );
   }
 }
