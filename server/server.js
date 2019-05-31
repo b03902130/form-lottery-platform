@@ -7,7 +7,7 @@ mongoose.set('useFindAndModify', false);
 const path = require('path');
 const config = require('../config/config');
 
-const port  = config.RESTAPIport;
+const port = config.RESTAPIport;
 const cors = require('cors');
 
 // Configuration
@@ -28,8 +28,8 @@ require('./routes')(app);
 app.use(express.static(path.resolve(__dirname, '../build')));
 
 app.get('*', function (req, res) {
-    res.sendFile(path.resolve(__dirname, '../build/index.html'));
-    res.end();
+  res.sendFile(path.resolve(__dirname, '../build/index.html'));
+  res.end();
 });
 
 
