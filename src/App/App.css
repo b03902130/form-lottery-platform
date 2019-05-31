@@ -24,6 +24,7 @@
 }
 
 .loginBoxContainer {
+  margin: 20px;
   -webkit-box-shadow: 0 0 20px 1px rgba(0,0,0,0.25);
   box-shadow: 0 0 20px 1px rgba(0,0,0,0.25); 
   -webkit-border-radius: 3px 3px 3px 3px;
@@ -31,6 +32,10 @@
 }
 .tabContent {
   padding: 10px;
+}
+
+.popularForms {
+  margin: 20px
 }
 
 @keyframes App-logo-spin {

@@ -19,7 +19,7 @@ app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-  origin: ['http://linux1.csie.ntu.edu.tw:8089'],
+  origin: [`http://${process.env.HOST}:${process.env.REACT}`],
   methods: ['GET', 'POST', 'DELETE', 'PUT'],
   credentials: true // enable set cookie
 }));
