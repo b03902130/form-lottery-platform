@@ -78,29 +78,33 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Grid>
-          <Row>
-            <Col md={4}></Col>
-            <Col xs={12} md={4}>
-                {this.state.loggedIn ? 
-                  <h1>You are logged in</h1>
-                  : 
-                  <div className = "loginBoxContainer">
-                    <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-                      <Tab eventKey={1} title="Login" className="tabContent">
-                        <LogIn stateChanger = {this.stateChanger}/>
-                      </Tab>
-                      <Tab eventKey={2} title="Sign Up" className="tabContent">
-                        <SignUp />
-                      </Tab>
-                    </Tabs>
-                    </div>}
-
-                  </Col>
-                  <Col md={4}></Col>
-                </Row>
-              </Grid>
-            </div>
+          {this.state.loggedIn ? 
+            <h1>You are logged in</h1>
+            :
+            <Grid>
+              <Row>
+                <Col xs={12} md={4}>
+                    <div className = "loginBoxContainer">
+                      <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
+                        <Tab eventKey={1} title="Login" className="tabContent">
+                          <LogIn stateChanger = {this.stateChanger}/>
+                        </Tab>
+                        <Tab eventKey={2} title="Sign Up" className="tabContent">
+                          <SignUp />
+                        </Tab>
+                      </Tabs>
+                      </div>
+                </Col>
+                <Col md={8}>
+                    <p>form 1</p>
+                    <p>form 2</p>
+                    <p>form 3</p>
+                    <p>form 4</p>
+                </Col>
+              </Row>
+            </Grid>
+          }
+      </div>
     );
   }
 }
