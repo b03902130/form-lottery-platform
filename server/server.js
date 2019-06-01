@@ -25,11 +25,10 @@ app.use(cors({
 }));
 
 app.use(session({ secret: "cnl4finalproject", resave: false, saveUninitialized: false}));
+app.use(express.static(path.resolve(__dirname, '../build')));
 
 // API routes
 require('./routes')(app);
-
-app.use(express.static(path.resolve(__dirname, '../build')));
 
 app.get('*', function (req, res) {
   res.sendFile(path.resolve(__dirname, '../build/index.html'));

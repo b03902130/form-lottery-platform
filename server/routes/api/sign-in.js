@@ -1,5 +1,4 @@
 const User = require('../../models/User');
-const UserSession = require('../../models/UserSession');
 const uuidv4 = require('uuid/v4');
 var nodemailer = require('nodemailer');
 
