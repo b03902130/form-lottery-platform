@@ -1,8 +1,8 @@
 # CNL Final Project
 
 ## How to change environment
-server will run on `HOST`:`BACKEND_PORT`
-react will run on `HOST`:`FRONTEND_PORT`
+- server will run on `HOST`:`BACKEND_PORT`
+- react will run on `HOST`:`FRONTEND_PORT`
 
 ### HOST
 - modify HOST in .env
