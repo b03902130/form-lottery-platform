@@ -24,8 +24,8 @@
   "scripts": {
     "start": "PORT=9095 react-scripts start",
     "build": "react-scripts build",
-    "server": "PORT=9090 nodemon server/server",
-    "debug": "PORT=9090 node inspect server/server"
+    "server": "PORT=9090 nodemon server/server.js",
+    "debug": "PORT=9090 nodemon --inspect=9091 server/server.js"
   },
   "browserslist": [
     ">0.2%",
