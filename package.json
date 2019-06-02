@@ -22,12 +22,10 @@
     "whatwg-fetch": "^2.0.4"
   },
   "scripts": {
-    "start": "PORT=8089 react-scripts start",
+    "start": "PORT=9095 react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "server": "PORT=8080 nodemon server/server",
-    "debug": "PORT=8080 node inspect server/server"
+    "server": "PORT=9090 nodemon server/server",
+    "debug": "PORT=9090 node inspect server/server"
   },
   "browserslist": [
     ">0.2%",

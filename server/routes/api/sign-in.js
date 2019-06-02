@@ -66,33 +66,32 @@ module.exports = (app) => {
           newUser.password = newUser.generateHash(password);
           newUser.name = name;
           newUser.activation = uuidv4();
-
-          newUser.save((err, user) => {
-            if (err) {
-              return res.status(500).send({
-                message: 'Error: Server Error',
-              });
-            }
-            else {
-              var mailOptions = {
-                from: 'cnl4ntucsie@gmail.com',
-                to: newUser.email,
-                subject: 'Activation Link',
-                text: `Click to activate: http://${process.env.HOST}:${process.env.FRONTEND_PORT}/api/account/activate?token=${newUser.activation}`
-              };
-              transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                  console.log(error);
-                } else {
-                  console.log('Email sent: ' + info.response);
+          
+          var mailOptions = {
+            from: 'cnl4ntucsie@gmail.com',
+            to: newUser.email,
+            subject: 'Activation Link',
+            text: `Click to activate: http://${process.env.HOST}:${process.env.PORT}/api/account/activate?token=${newUser.activation}`
+          };
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+              console.log(error);
+              res.status(500).send({message: 'Email fail to send'})
+            } else {
+              console.log('Email sent: ' + info.response);
+              newUser.save((err, user) => {
+                if (err) {
+                  return res.status(500).send({
+                    message: 'Error: Server Error',
+                  });
+                }
+                else {
+                  return res.status(200).send({
+                    message: "Signed Up",
+                  });
                 }
               });
-
-              return res.status(200).send({
-                message: "Signed Up",
-              });
             }
-
           });
         }
       });
@@ -105,7 +104,7 @@ module.exports = (app) => {
         return res.status(400).send('<h1>Account not existed</h1>')
       }
       else {
-        return res.status(200).send(`<h1>Account activated</h1><p style="margin-left:10px">You can <a href="http://${process.env.HOST}:${process.env.PORT}">login</a> now</p>`);
+        return res.status(200).send(`<h1>Account activated</h1><p style="margin-left:10px">You can <a href="http://${process.env.HOST}:${process.env.FRONTEND_PORT}">login</a> now</p>`);
       }
     })
   })
