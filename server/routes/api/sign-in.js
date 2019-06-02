@@ -2,14 +2,6 @@ const User = require('../../models/User');
 const uuidv4 = require('uuid/v4');
 var nodemailer = require('nodemailer');
 
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'cnl4ntucsie@gmail.com',
-    pass: 'finalproject4!'
-  }
-});
-
 module.exports = (app) => {
   //SignUp
   app.post('/api/account/signup', (req, res, next) => {
@@ -66,8 +58,15 @@ module.exports = (app) => {
           newUser.password = newUser.generateHash(password);
           newUser.name = name;
           newUser.activation = uuidv4();
-          
-          var mailOptions = {
+             
+          let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: 'cnl4ntucsie@gmail.com',
+              pass: 'finalproject4!'
+            }
+          });
+          let mailOptions = {
             from: 'cnl4ntucsie@gmail.com',
             to: newUser.email,
             subject: 'Activation Link',
