@@ -19,7 +19,7 @@ app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-  origin: [`http://${process.env.HOST}:${process.env.REACT}`],
+  origin: [`http://${process.env.HOST}:${process.env.FRONTEND_PORT}`],
   methods: ['GET', 'POST', 'DELETE', 'PUT'],
   credentials: true // enable set cookie
 }));

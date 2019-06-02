@@ -7,7 +7,6 @@ import {
   Button,
   Alert,
 } from 'react-bootstrap';
-import RESTAPIUrl from '../config/config';
 
 import Axios from 'axios';
 Axios.defaults.withCredentials = true;
@@ -118,7 +117,7 @@ class SignUp extends Component {
       email: this.state.email,
     };
 
-    Axios.post( RESTAPIUrl+"/api/account/signup", newUser)
+    Axios.post(window.BACKEND +"/api/account/signup", newUser)
       .then(json => {
         json = json.data
         if(json.message === "Signed Up") {

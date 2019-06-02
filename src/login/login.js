@@ -6,7 +6,6 @@ import {
   Button,
   Alert,
 } from 'react-bootstrap';
-import RESTAPIUrl from '../config/config';
 
 import Axios from 'axios';
 Axios.defaults.withCredentials = true;
@@ -73,7 +72,7 @@ class LogIn extends Component {
       logInLoading: true,
     });
 
-    Axios.post( RESTAPIUrl + '/api/account/signin', {email: email, password: password})
+    Axios.post(window.BACKEND + '/api/account/signin', {email: email, password: password})
       .then(json => {
         json = json.data
         if (json.success) {

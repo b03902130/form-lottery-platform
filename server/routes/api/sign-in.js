@@ -78,7 +78,7 @@ module.exports = (app) => {
                 from: 'cnl4ntucsie@gmail.com',
                 to: newUser.email,
                 subject: 'Activation Link',
-                text: `Click to activate: http://${process.env.HOST}:${process.env.PORT}/api/account/activate?token=${newUser.activation}`
+                text: `Click to activate: http://${process.env.HOST}:${process.env.FRONTEND_PORT}/api/account/activate?token=${newUser.activation}`
               };
               transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
@@ -188,7 +188,7 @@ module.exports = (app) => {
 
   app.get('/api/account/logout', (req, res, next) => {
     req.session.destroy(() => {
-      return res.redirect(`http://${process.env.HOST}:${process.env.REACT}`);
+      return res.redirect(`http://${process.env.HOST}:${process.env.FRONTEND_PORT}`);
     })
   })
 

@@ -13,7 +13,6 @@ import SignUp from '../signup/signup';
 import LogIn from '../login/login';
 import Home from '../content/Home';
 import Dashboard from '../content/Dashboard'; 
-import RESTAPIUrl from '../config/config';
 
 import Axios from 'axios';
 Axios.defaults.withCredentials = true;
@@ -40,7 +39,7 @@ class App extends Component {
 
   componentDidMount() {
     // Verify session
-    Axios.get( RESTAPIUrl + '/api/account/verify')
+    Axios.get(window.BACKEND + '/api/account/verify')
       .then(json => {
         json = json.data
         if (json.success) {
@@ -63,7 +62,7 @@ class App extends Component {
       logOutButtonStatus: 'info',
     });
     // Verify session
-    Axios.get(RESTAPIUrl + '/api/account/logout')
+    Axios.get(window.BACKEND + '/api/account/logout')
       .then(json => {
         json = json.data
         if (json.success) {
@@ -81,7 +80,7 @@ class App extends Component {
 
 
   render() {
-    let logoutlink = `${RESTAPIUrl}/api/account/logout`
+    let logoutlink = `${window.BACKEND}/api/account/logout`
     return (
       <div className="App">
         <BrowserRouter> {this.state.loggedIn ?
