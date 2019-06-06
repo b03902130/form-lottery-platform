@@ -30,6 +30,9 @@ app.use(express.static(path.resolve(__dirname, '../build')));
 // API routes
 require('./routes')(app);
 
+var formRouter = require('./routes/form')
+app.use('/api/forms', formRouter)
+
 app.get('*', function (req, res) {
   res.sendFile(path.resolve(__dirname, '../build/index.html'));
   res.end();

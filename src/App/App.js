@@ -13,6 +13,7 @@ import SignUp from '../signup/signup';
 import LogIn from '../login/login';
 import Home from '../content/Home';
 import Dashboard from '../content/Dashboard'; 
+import FormCreate from '../content/FormCreate';
 
 import Axios from 'axios';
 Axios.defaults.withCredentials = true;
@@ -91,6 +92,7 @@ class App extends Component {
               <Switch>
                 <Route exact path='/' component={Home} />
                 <Route exact path='/dashboard' component={Dashboard} />
+                <Route exact path='/forms/new' component={FormCreate} />
               </Switch>
             </div>
             :
