@@ -101,8 +101,10 @@ class FillForm extends React.Component {
 
   summary = (event) => {
     let fullUrl = `${window.BACKEND}/api/forms/${this.props.match.params.FormId}/summary`
+    debugger
     Axios.get(fullUrl)
       .then(json => {
+        debugger
         console.log(json.data)
       })
       .catch(err => {
