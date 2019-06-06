@@ -4,6 +4,7 @@ var router = express.Router();
 
 // mongoose schema
 var Form = require('../models/Form');
+var Answer = require('../models/Answer')
 
 
 // RESTFUL API
@@ -16,45 +17,21 @@ router.post('/', (req, res, next) => {
   });
 });
 
-// // edit: cause teacher information is public, no need to check the authorization
-// router.get('/:id/edit/', (req, res, next) => {
-//   Teacher.where("_id", req.params.id).exec().catch(err => { dealServerError(err, res); }).then(docs => {
-//     docs = organizeOutputTeacher(docs);
-//     if (docs.length === 0) {
-//       res.status(400).send("Teacher unexisted");
-//     }
-//     else {
-//       res.status(200).send({ info: docs[0] });
-//     }
-//   });
-// });
+// get form
+router.get('/:id', (req, res, next) => {
+  Form.where({"_id": req.params.id}).exec().catch(err => {console.log(err); res.status(500).send({success: false});}).then(docs => {
+    res.status(200).send({ ...docs[0]._doc })
+  });
+})
 
-// // show the course of a specific teacher
-// router.get('/:id/courses/', (req, res, next) => {
-//   Course.where("teacherid", req.params.id).populate("teacherid").exec().catch(err => { dealServerError(err, res); }).then(docs => {
-//     docs = organizeOutputCourse(docs);
-//     res.status(200).send({ courses: docs });
-//   });
-// });
+// fill form
+router.post('/:id', (req, res, next) => {
+  const answer = new Answer({ ...req.body, form: req.params.id, owner: req.session.userId})
+  answer.save().catch(err => {console.log(err); res.status(500).send({success: false});}).then(doc => {
+    res.status(200).send({ success: true });
+  });
+})
 
-// // update
-// router.post('/:id/put/', checkSession, checkTeacherId, organizeInputTeacher, (req, res, next) => {
-//   Teacher.updateOne({ _id: req.params.id }, req.body.data).exec().catch(err => { dealServerError(err, res); }).then(docs => {
-//     if (docs.length === 0) {
-//       res.status(400).send("Teacher unexisted");
-//     }
-//     res.status(200).send();
-//   });
-// });
-
-// // destroy
-// router.get('/:id/delete/', checkSession, checkTeacherId, (req, res, next) => {
-//   Teacher.deleteMany({ _id: req.params.id }).catch(err => { dealServerError(err, res); }).then(docs => {
-//     Course.deleteMany({ teacherid: req.params.id }).catch(err => { dealServerError(err, res); }).then(docs => {
-//       res.status(200).send();
-//     });
-//   });
-// });
 
 module.exports = router;
 

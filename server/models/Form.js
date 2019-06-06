@@ -17,11 +17,15 @@ const FormSchema = new mongoose.Schema({
     type: [mongoose.Schema.Types.Mixed],
     default: [
       {
-        type: 'short',  // type can be 'short' or 'multiple'
-        question: ''
+        question_type: 'text',  // type can be 'text' or 'select'
+        question_text: ''
       },
     ],
   },
+  isDue: {
+    type: Boolean,
+    default: false
+  }
 });
 
 module.exports = mongoose.model('Form', FormSchema);
