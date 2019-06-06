@@ -1,12 +1,13 @@
 # CNL Final Project
 
-## 分工
+# 分工
 
-### Prototype: 書文
+### Prototype
+- 書文
 
 ### Home
-#### 三種表單
-- 已填有中獎、已填未中獎、未填(允中)
+- 三種表單(允中)
+    - 已填有中獎、已填未中獎、未填
 
 ### Dashboard
 - 排版已創建的表單(義均)
@@ -17,10 +18,12 @@
     - 兩種題型: 簡答、選擇題(前端用寫死ABCDE, 題目標各選項是啥)
 
 ### Backend database: 實際Schema要存哪些資料要再溝通
-- 進一步完成剩餘form routing: 彥綸
+- 進一步完成剩餘form routing(彥綸)
+ 
+---
 
 
-## 環境設定
+# 環境設定
 ### How to change environment
 - server will run on `HOST`:`BACKEND_PORT`
 - react will run on `HOST`:`FRONTEND_PORT`
