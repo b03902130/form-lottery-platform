@@ -29,7 +29,7 @@ const UserSchema = new mongoose.Schema({
   isActivated: {
     type: Boolean,
     default: false,
-  }
+  },
 });
 
 UserSchema.methods.generateHash = (password) =>

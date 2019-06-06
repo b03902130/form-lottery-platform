@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const FormSchema = new mongoose.Schema({
   owner: {
-    type: String,
-    default: ''
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
   },
   title: {
     type: String,
@@ -24,8 +24,12 @@ const FormSchema = new mongoose.Schema({
   },
   isDue: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
+  winners: {
+    type: [String],
+    default: [],
+  },  
 });
 
 module.exports = mongoose.model('Form', FormSchema);

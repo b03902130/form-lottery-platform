@@ -54,17 +54,12 @@ class CreateForm extends React.Component {
     const description = this.state.formDescription;
     const listQuestions = this.state.listQuestions;
     Axios.post(window.BACKEND + '/api/forms/', { title: title, description: description, questions: listQuestions })
-      .catch(err => {
-        console.log(err)
-      })
       .then(json => {
-        json = json.data
-        if (json.success) {
-          alert("成功新增表單");
-          this.props.history.push('/home');
-        } else {
-          alert("尷尬...");
-        }
+        alert("成功新增表單");
+        this.props.history.push('/home')
+      })
+      .catch(err => {
+        alert("尷尬...");
       })
   }
 

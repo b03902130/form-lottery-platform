@@ -55,7 +55,10 @@ class FillForm extends React.Component {
           formTitle: json.title,
           formDescription: json.description,
         });
-      });
+      })
+      .catch(err => {
+        alert('尷尬...')
+      })
   }
 
   handleInputChange = (event) => {
@@ -88,12 +91,22 @@ class FillForm extends React.Component {
     let listAnswers_organize = listAnswers.map(answerObj => answerObj.answer)
     Axios.post(window.BACKEND + '/api/forms/' + FormId, { answers: listAnswers_organize })
       .then(json => {
-        json = json.data
-        if (json.success) {
-          alert("成功新增表單");
-        } else {
-          alert("尷尬...");
-        }
+        alert("成功填寫表單");
+        this.props.history.push('/home')
+      })
+      .catch(err => {
+        alert('尷尬...')
+      })
+  }
+
+  summary = (event) => {
+    let fullUrl = `${window.BACKEND}/api/forms/${this.props.match.params.FormId}/summary`
+    Axios.get(fullUrl)
+      .then(json => {
+        console.log(json.data)
+      })
+      .catch(err => {
+        alert('Something wrong')
       })
   }
 
@@ -143,6 +156,8 @@ class FillForm extends React.Component {
     }
 
     return (
+      <div>
+      <button type="button" onClick={this.summary}>summary</button>
       <Grid>
         <Row>
           <Col xs={12} md={12}>
@@ -157,6 +172,7 @@ class FillForm extends React.Component {
           </Col>
         </Row>
       </Grid>
+      </div>
     );
   }
 }

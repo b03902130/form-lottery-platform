@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 const AnswerSchema = new mongoose.Schema({
   owner: {
-    type: String,
-    default: ''
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
   },
   form: {
-    type: String,
-    default: ''
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Form',
   },
   answers: {
     type: [String],
