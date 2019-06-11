@@ -82,22 +82,17 @@ class Due extends Component {
     const items = []
     for (const [index, value] of this.props.FormList.entries()){
       items.push(
-        <ul class="list-group"> 
-          <h3 class="list-group-title">
+        <ul class="list-group-item"> 
+          <h3 style={{height: "1em", fontWeight: "900"}} class="list-group-title">
             {value['title']}
           </h3>
-          <h4 class="list-group-title">
-            Winners:
-          </h4>
-         </ul>
-       )
-      value['winners'].forEach(function(item,i,a){
-        items.push( 
-          <li class="list-group-item">
-            {item}
-          </li>
-        )
-      });
+        </ul>
+      )
+      items.push(
+        <li class="list-group-item">
+          { value['winners'].map(winner => <span style={{display: 'inline-block', margin: '0 20px', fontSize: '18px'}}>{winner}</span>) }
+        </li>
+      )
     }
     
     return (  
@@ -107,9 +102,9 @@ class Due extends Component {
               已開獎
           </h3>
         </div>
-          <div class="panel-body">
-             {items}
-          </div>
+        <div class="panel-body">
+           {items}
+        </div>
       </div>
     );
   }

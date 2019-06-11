@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import Card from 'react-bootstrap/Card'
-import ListGroup from 'react-bootstrap/ListGroup';
 import Plot from 'react-plotly.js';
+import {Panel, ListGroup, ListGroupItem} from 'react-bootstrap'
 
 import Axios from 'axios';
 Axios.defaults.withCredentials = true;
@@ -29,33 +28,53 @@ class Summary extends Component {
   range = n => Array.from(Array(n).keys())
 
   render() {
-    var data = [{
-      values: [150, 26, 55],
-      labels: ['Residential', 'Non-Residential', 'Utility'],
-      type: 'pie'
-    }];
-    var layout = {
-      height: 400,
-      width: 500
-    };
     return (
       this.state.form ?
-      <div>
+      <div style={{width: "80%", padding: "30px", margin: "auto"}}>
         <h1>{this.state.form.title}</h1>
         <h3>{this.state.form.description}</h3>
           {
-            this.range(this.state.form.questions.length).map(index => 
-              <Card style={{ width: '18rem' }}>
-                <Card.Header>Featured</Card.Header>
-                <ListGroup variant="flush">
-                  <ListGroup.Item>Cras justo odio</ListGroup.Item>
-                  <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                  <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
-                </ListGroup>
-              </Card>
-            )
+            this.range(this.state.form.questions.length).map(index => {
+              var question = this.state.form.questions[index]
+              if (question.question_type !== "text") {
+                const mapping = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4}
+                let values = [0, 0, 0, 0, 0]
+                for (let answer of this.state.answers) {
+                  values[mapping[answer.answers[index]]] += 1
+                }
+                var data = [{
+                  values: values,
+                  labels: ['A', 'B', 'C', 'D', 'E'],
+                  type: 'pie'
+                }];
+                var layout = {
+                  height: 400,
+                  width: 500
+                };
+              }
+              return (
+                <div key={'panel' + index}>
+                  <Panel>
+                    <Panel.Heading>{question.question_text}</Panel.Heading>
+                      {
+                        question.question_type === "text" ? 
+                          <ListGroup>
+                              {
+                                this.state.answers.map(answer =>
+                                  <ListGroupItem>{answer.answers[index]}</ListGroupItem>
+                                )
+                              }
+                          </ListGroup>
+                        :
+                          <Plot data={data} layout={layout} />
+                      }
+                    <Panel.Body>Some more panel content here.</Panel.Body>
+                  </Panel>
+                </div>
+              )
+            })
           }
-            </div>
+      </div>    
       :
       <p>Loading...</p>
     );

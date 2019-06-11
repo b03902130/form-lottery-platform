@@ -99,19 +99,6 @@ class FillForm extends React.Component {
       })
   }
 
-  summary = (event) => {
-    let fullUrl = `${window.BACKEND}/api/forms/${this.props.match.params.FormId}/summary`
-    debugger
-    Axios.get(fullUrl)
-      .then(json => {
-        debugger
-        console.log(json.data)
-      })
-      .catch(err => {
-        alert('Something wrong')
-      })
-  }
-
   render() {
     const elements = ['one', 'two', 'three'];
     const items = []
@@ -158,8 +145,6 @@ class FillForm extends React.Component {
     }
 
     return (
-      <div>
-      <button type="button" onClick={this.summary}>summary</button>
       <Grid>
         <Row>
           <Col xs={12} md={12}>
@@ -174,7 +159,6 @@ class FillForm extends React.Component {
           </Col>
         </Row>
       </Grid>
-      </div>
     );
   }
 }
