@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
+import {BrowserRouter, Switch, Route, Link, Redirect} from 'react-router-dom';
 
 import './App.css';
 import { 
@@ -95,6 +95,7 @@ class App extends Component {
                 <Route exact path='/dashboard' component={Dashboard} />
                 <Route exact path='/forms/new' component={FormCreate} />
                 <Route exact path='/forms/:FormId' component={FillForm} />
+                <Redirect to="/" />
               </Switch>
             </div>
             :

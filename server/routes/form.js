@@ -5,24 +5,138 @@ var router = express.Router();
 // mongoose schema
 var Form = require('../models/Form');
 var Answer = require('../models/Answer')
-
+var nodemailer = require('nodemailer');
 
 // RESTFUL API
+
+const data = {
+    isFilled: false,
+    isDue: false,
+    winners: [],
+    title: '',
+    description: '',
+    id: ''
+};
 
 // list all forms and organize with 3 categories: filled, notfilled, isDue
 router.get('/', (req, res, next) => {
   // todo
+  Form.find().sort('_id').catch(err => {console.log(err); res.status(500).send();}).then(forms => { // all forms
+    Answer.find({
+      'owner': req.session.userId,
+    }).sort('form').catch(err => {console.log(err); res.status(500).send();}).then(answers => { // whether already filled
+      let filledID = answers.map(answer => answer._doc.form.toString())
+      forms = forms.map(form => ({
+        isFilled: filledID.includes(form.id),
+        isDue: form.isDue,
+        winners: form.winners,
+        title: form.title,
+        description: form.description,
+        id: form.id
+      }))
+      let due = []
+      let filled = []
+      let unfilled = []
+      for (let form of forms) {
+        if (form.isDue) {
+          due.push(form)
+        }
+        else if (form.isFilled) {
+          filled.push(form)
+        }
+        else {
+          unfilled.push(form)
+        }
+      }
+      res.status(200).send({
+        due: due,
+        filled: filled,
+        unfilled: unfilled
+      })
+    })
+  })
 })
 
 // list all forms created by request user
 router.get('/my', (req, res, next) => {
   // todo
+  // infomation in req.session.userId
+ Form.where({'owner': req.session.userId}).populate('owner').exec().catch(err => {console.log(err); res.status(500).send();}).then(forms => {
+    //console.log(forms.map(form => ({ ...form._doc})))
+    res.status(200).send({
+	//form: forms        
+	form: forms
+    })
+  });
 })
 
 
 // make a form due, select 3 people who wins, and email them
 router.get('/:id/due', (req, res, next) => {
   // todo
+  Form.findOneAndUpdate({'_id': req.params.id}, {isDue: true}).populate('owner').exec().catch(err => {console.log(err); res.status(500).send();}).then(forms => {
+    if (forms.length === 0) {
+      res.status(404).send();
+      return
+    }
+    if (forms.isDue){
+		res.status(500).send('timeout')	
+	}
+    Answer.where({'form': req.params.id}).populate('owner').exec().catch(err => {console.log(err); res.status(500).send();}).then(answers => {
+	var answers_num = answers.length;
+	var wins = 3;
+	var result = [];
+	let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: 'cnl4ntucsie@gmail.com',
+              pass: 'finalproject4!'
+            }
+        });
+	
+
+	if(answers.length < wins){
+	  res.status(200).send({
+	    //number: answers.length,
+            winners: answers.map(answer => ({ ...answer._doc}))
+     	  })
+	}
+	else{
+	  for(var i=0; i<wins ; i++){
+		var ran = Math.floor(Math.random() * answers.length);
+		result.push(answers[ran])
+
+		let mailOptions = {
+            		from: 'cnl4ntucsie@gmail.com',
+            		to: answers[ran].owner.email,
+            		subject: 'You win a recent form filling',
+            		text: `Click the following link for advanced information: http://${process.env.HOST}:${process.env.PORT}`
+          	};
+		transporter.sendMail(mailOptions, function (error, info) {
+		    if (error) {
+		      console.log(error);
+		      res.status(500).send({message: 'Email fail to send'})
+		    } else {
+		      console.log('Email sent: ' + info.response);
+			}
+		      
+		});
+
+		var center = answers[ran];
+		answers[ran] = answers[answers.length - 1];
+		answers[answers.length - 1] = center;
+		answers = answers.slice(0, answers.length - 1);
+	  }
+	  console.log(result)
+	  res.status(200).send({
+            winners: result
+     	  })
+	}
+	
+    });
+
+  });
+
 })
 
 // create
@@ -67,7 +181,6 @@ router.get('/:id/summary', (req, res, next) => {
     })
   })
 })
-
 
 
 module.exports = router;
