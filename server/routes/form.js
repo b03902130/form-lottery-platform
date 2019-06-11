@@ -60,16 +60,31 @@ router.get('/', (req, res, next) => {
 // list all forms created by request user
 router.get('/my', (req, res, next) => {
   // todo
-  // infomation in req.session.userId
  Form.where({'owner': req.session.userId}).populate('owner').exec().catch(err => {console.log(err); res.status(500).send();}).then(forms => {
-    //console.log(forms.map(form => ({ ...form._doc})))
     res.status(200).send({
-	//form: forms        
-	form: forms
+      form: forms
     })
   });
 })
 
+// send email
+function sendEmail(transporter, email) {
+  email = 'leo19941227@gmail.com'
+  let mailOptions = {
+    from: 'cnl4ntucsie@gmail.com',
+    to: email,
+    subject: 'You win a recent form filling',
+    text: `Click the following link for advanced information: http://${process.env.HOST}:${process.env.FRONTEND_PORT}`
+  };
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+      res.status(500).send({message: 'Email fail to send'})
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
 
 // make a form due, select 3 people who wins, and email them
 router.get('/:id/due', (req, res, next) => {
@@ -80,63 +95,37 @@ router.get('/:id/due', (req, res, next) => {
       return
     }
     if (forms.isDue){
-		res.status(500).send('timeout')	
-	}
+      res.status(400).send('already due')	
+      return
+    }
     Answer.where({'form': req.params.id}).populate('owner').exec().catch(err => {console.log(err); res.status(500).send();}).then(answers => {
-	var answers_num = answers.length;
-	var wins = 3;
-	var result = [];
-	let transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-              user: 'cnl4ntucsie@gmail.com',
-              pass: 'finalproject4!'
-            }
-        });
-	
+      var answers_num = answers.length;
+      var wins = 3;
+      let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'cnl4ntucsie@gmail.com',
+          pass: 'finalproject4!'
+        }
+      });
 
-	if(answers.length < wins){
-	  res.status(200).send({
-	    //number: answers.length,
-            winners: answers.map(answer => ({ ...answer._doc}))
-     	  })
-	}
-	else{
-	  for(var i=0; i<wins ; i++){
-		var ran = Math.floor(Math.random() * answers.length);
-		result.push(answers[ran])
-
-		let mailOptions = {
-            		from: 'cnl4ntucsie@gmail.com',
-            		to: answers[ran].owner.email,
-            		subject: 'You win a recent form filling',
-            		text: `Click the following link for advanced information: http://${process.env.HOST}:${process.env.PORT}`
-          	};
-		transporter.sendMail(mailOptions, function (error, info) {
-		    if (error) {
-		      console.log(error);
-		      res.status(500).send({message: 'Email fail to send'})
-		    } else {
-		      console.log('Email sent: ' + info.response);
-			}
-		      
-		});
-
-		var center = answers[ran];
-		answers[ran] = answers[answers.length - 1];
-		answers[answers.length - 1] = center;
-		answers = answers.slice(0, answers.length - 1);
-	  }
-	  console.log(result)
-	  res.status(200).send({
-            winners: result
-     	  })
-	}
-	
+      let results
+      if(answers.length < wins){
+        results = answers
+      }
+      else{
+        let ran = Math.floor(Math.random() * (answers.length - wins));
+        results = answers.slice(ran, wins)
+      }
+      results.forEach(result => {sendEmail(transporter, result.owner.email)})
+      let winners = results.map(result => result.owner.name)
+      Form.findOneAndUpdate({'_id': req.params.id}, {winners: winners}).catch(err => {console.log(err); res.status(500).send();}).then(docs => {
+        res.status(200).send({
+          winners: winners
+        })
+      })
     });
-
   });
-
 })
 
 // create
