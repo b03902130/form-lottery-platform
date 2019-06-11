@@ -15,6 +15,7 @@ import Home from '../content/Home';
 import Dashboard from '../content/Dashboard'; 
 import FormCreate from '../content/FormCreate';
 import FillForm from '../content/FillForm';
+import Summary from '../content/Summary';
 
 import Axios from 'axios';
 Axios.defaults.withCredentials = true;
@@ -95,6 +96,7 @@ class App extends Component {
                 <Route exact path='/dashboard' component={Dashboard} />
                 <Route exact path='/forms/new' component={FormCreate} />
                 <Route exact path='/forms/:FormId' component={FillForm} />
+                <Route exact path='/forms/:FormId/summary' component={Summary} />
                 <Redirect to="/" />
               </Switch>
             </div>
