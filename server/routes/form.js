@@ -171,6 +171,16 @@ router.get('/:id/summary', (req, res, next) => {
   })
 })
 
+// fill form
+router.post('/:id/delete', (req, res, next) => {
+  const answer = new Answer({ ...req.body, form: req.params.id, owner: req.session.userId})
+  Form.findByIdAndRemove(req.params.id).catch(err => {console.log(err); res.status(500).send();}).then(doc => {
+    Answer.deleteMany({ form: req.params.id}).catch(err => {console.log(err); res.status(500).send();}).then(doc => {
+      res.status(200).send()
+    })
+  });
+})
+
 
 module.exports = router;
 
