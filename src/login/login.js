@@ -98,7 +98,18 @@ class LogIn extends Component {
             logInStatus: 'danger',
           });
         }
-
+      })
+      .catch(err => {
+        let message = err.response.data.message
+        if (!message) {
+          message = 'Please fill the form correctly'
+        }
+        this.setState({
+          signInError: message,
+          logInLoading: false,
+          show: true,
+          logInStatus: 'danger',
+        });
       })
 
   }
