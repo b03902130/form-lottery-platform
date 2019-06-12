@@ -100,10 +100,7 @@ class LogIn extends Component {
         }
       })
       .catch(err => {
-        let message = err.response.data.message
-        if (!message) {
-          message = 'Please fill the form correctly'
-        }
+        let message = 'Please fill the form correctly'
         this.setState({
           signInError: message,
           logInLoading: false,
