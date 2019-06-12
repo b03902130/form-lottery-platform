@@ -1,30 +1,22 @@
-# CNL Final Project
+# Form Lottery Platform
+Computer Network Lab Final Project
 
-# 分工
+## Demo
+0. `npm install`
+1. `npm run build`
+2. `npm run server`
 
-### Prototype
-- 書文
-
-### Home
-- 三種表單(允中)
-    - 已填有中獎、已填未中獎、未填
-
-### Dashboard
-- 排版已創建的表單(義均)
-    - 刪除按鈕
-    - 抽獎(越大越好)，後端抽獎後，前端更新顯示哪些人中獎
-- 排版統計資料(長條圖or圓餅圖): 自己做data analysis(名純)
-- 設計表單、受訪者填表單(德威)
-    - 兩種題型: 簡答、選擇題(前端用寫死ABCDE, 題目標各選項是啥)
-
-### Backend database: 實際Schema要存哪些資料要再溝通
-- 進一步完成剩餘form routing(彥綸)
- 
----
+## Develop at Localhost
+0. `npm install`
+1. `npm run debug`
+    - Run up backend server with `--inpect`
+2. `npm run start`
+    - Run up frontend react server to enable responsive frontend development
+    - With `window.BACKEND` varable in `src/index.js` correctly set, react can communicate with backend server
 
 
-# 環境設定
-### How to change environment
+## Other Environments
+#### Background Knowledge
 - server will run on `HOST`:`BACKEND_PORT`
 - react will run on `HOST`:`FRONTEND_PORT`
 
@@ -39,4 +31,3 @@
 #### FRONTEND_PORT
 - change PORT in package.json (script: start)
 - modify FRONTEND_PORT in .env
-
