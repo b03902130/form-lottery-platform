@@ -103,7 +103,7 @@ class App extends Component {
             :
             <Grid>
               <Row>
-                <Col xs={12} md={4}>
+                <Col xs={12} md={12}>
                   <div className = "loginBoxContainer">
                     <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
                       <Tab eventKey={1} title="Login" className="tabContent">
@@ -113,14 +113,6 @@ class App extends Component {
                         <SignUp />
                       </Tab>
                     </Tabs>
-                  </div>
-                </Col>
-                <Col xs={12} md={8}>
-                  <div className="popularForms">
-                    <p>form 1</p>
-                    <p>form 2</p>
-                    <p>form 3</p>
-                    <p>form 4</p>
                   </div>
                 </Col>
               </Row>
