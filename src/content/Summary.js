@@ -37,14 +37,14 @@ class Summary extends Component {
             this.range(this.state.form.questions.length).map(index => {
               var question = this.state.form.questions[index]
               if (question.question_type !== "text") {
-                const mapping = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4}
-                let values = [0, 0, 0, 0, 0]
+                const mapping = {'A': 0, 'B': 1, 'C': 2, 'D': 3}
+                let values = [0, 0, 0, 0]
                 for (let answer of this.state.answers) {
                   values[mapping[answer.answers[index]]] += 1
                 }
                 var data = [{
                   values: values,
-                  labels: ['A', 'B', 'C', 'D', 'E'],
+                  labels: ['A', 'B', 'C', 'D'],
                   type: 'pie'
                 }];
                 var layout = {

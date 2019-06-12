@@ -26,7 +26,8 @@ class FormPreview extends React.Component {
 		this.state = {
 			has_drawn: this.props.value.has_drawn,
 			winners: this.props.value.winners,
-			exist: true
+			exist: true,
+      form_id: this.props.value.form_id
 		};
 	}
 
@@ -36,7 +37,7 @@ class FormPreview extends React.Component {
 			.then(json => {
 				// alert("good");
 				this.setState({
-					exist: false
+          exist: false,
 				})
 			})
 			.catch(err => {
@@ -53,7 +54,7 @@ class FormPreview extends React.Component {
 
 				this.setState({
 					has_drawn: true,
-					winners: data.winners
+          winners: data.winners,
 				});
 
 			})
@@ -88,8 +89,14 @@ class FormPreview extends React.Component {
 						</FormGroup>
 
 						<Button bsStyle="danger" bsSize="small" onClick={this.handleDeleteRequest}>刪除</Button>
-					</Panel.Body>
+              {
+                this.state.form_id && <Link to={'/forms/' + this.state.form_id + '/summary'}>統計</Link>
+              }
+          </Panel.Body>
 					<Button bsStyle="success" onClick={this.handleDrawRequest} block>抽獎</Button>
+          {
+            this.state.form_id && <Link to={'/forms/' + this.state.form_id + '/summary'}>統計</Link>
+          }
 				</Panel>
 			);
 		} else {
@@ -126,6 +133,9 @@ class FormPreview extends React.Component {
 						</FormGroup>
 
 						<Button bsStyle="danger" bsSize="small" onClick={this.handleDeleteRequest}>刪除</Button>
+            {
+              this.state.form_id && <Link to={'/forms/' + this.state.form_id + '/summary'}>統計</Link>
+            }
 					</Panel.Body>
 				</Panel>
 			);

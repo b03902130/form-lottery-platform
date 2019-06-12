@@ -26,6 +26,12 @@ module.exports = (app) => {
         message: 'Error: Email cannot be blank.'
       });
     }
+    if (email) {
+      return res.send({
+        success: false,
+        message: 'Error: Email cannot be blank.'
+      });
+    }
     if (!password) {
       return res.send({
         success: false,
