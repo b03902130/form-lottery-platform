@@ -33,10 +33,10 @@ require('./routes')(app);
 var formRouter = require('./routes/form')
 app.use('/api/forms', formRouter)
 
-app.get('*', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../build/index.html'));
-  res.end();
-});
+// app.get('*', function (req, res) {
+//   res.sendFile(path.resolve(__dirname, '../build/index.html'));
+//   res.end();
+// });
 
 
 app.listen(process.env.PORT, process.env.HOST, (err) => {
