@@ -63,12 +63,19 @@ class Dashboard extends React.Component {
 		);
   }
 
-	return (
-		<Grid>
-			<PageHeader> 我的問卷 </PageHeader>
-				{items}
-		</Grid>
-	);
+    return (
+      <div>
+        <Link to='/forms/new'>
+          <button type="button" class="btn btn-primary btn-block">
+            <h3> 創建問卷 </h3>
+          </button>
+        </Link>
+        <Grid>
+          <PageHeader> 我的問卷 </PageHeader>
+            {items}
+        </Grid>
+      </div>
+    );
   }
 }
 

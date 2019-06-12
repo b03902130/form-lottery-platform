@@ -87,16 +87,12 @@ class FormPreview extends React.Component {
 								<ControlLabel> {brief_description} </ControlLabel>
 							</Col>
 						</FormGroup>
-
+            {
+              this.state.form_id && <Link to={'/forms/' + this.state.form_id + '/summary'}>統計</Link>
+            }
 						<Button bsStyle="danger" bsSize="small" onClick={this.handleDeleteRequest}>刪除</Button>
-              {
-                this.state.form_id && <Link to={'/forms/' + this.state.form_id + '/summary'}>統計</Link>
-              }
           </Panel.Body>
 					<Button bsStyle="success" onClick={this.handleDrawRequest} block>抽獎</Button>
-          {
-            this.state.form_id && <Link to={'/forms/' + this.state.form_id + '/summary'}>統計</Link>
-          }
 				</Panel>
 			);
 		} else {
@@ -131,11 +127,10 @@ class FormPreview extends React.Component {
                 </ControlLabel>
 							</Col>
 						</FormGroup>
-
-						<Button bsStyle="danger" bsSize="small" onClick={this.handleDeleteRequest}>刪除</Button>
             {
               this.state.form_id && <Link to={'/forms/' + this.state.form_id + '/summary'}>統計</Link>
             }
+						<Button bsStyle="danger" bsSize="small" onClick={this.handleDeleteRequest}>刪除</Button>
 					</Panel.Body>
 				</Panel>
 			);
