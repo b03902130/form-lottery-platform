@@ -21,19 +21,20 @@ module.exports = (app) => {
     } = body;
 
     if (!email) {
-      return res.send({
+      return res.status(400).send({
         success: false,
         message: 'Error: Email cannot be blank.'
       });
     }
-    if (email) {
-      return res.send({
+    if (email.search('@ntu.edu.tw') <= 0) {
+      return res.status(400).send({
         success: false,
-        message: 'Error: Email cannot be blank.'
-      });
+        message: 'Only NTU mail is allowed',
+        respId: 'LIE1'
+      })
     }
     if (!password) {
-      return res.send({
+      return res.status(400).send({
         success: false,
         message: 'Error: Password cannot be blank.'
       });
@@ -54,7 +55,7 @@ module.exports = (app) => {
           });
         }
         else if (prevUsers.length != 0) {
-          return res.status(200).send({
+          return res.status(400).send({
             message: 'Error: Account Already Exists'
           })
         }
@@ -81,7 +82,7 @@ module.exports = (app) => {
           transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
               console.log(error);
-              res.status(500).send({message: 'Email fail to send'})
+              return res.status(500).send({message: 'Email fail to send'})
             } else {
               console.log('Email sent: ' + info.response);
               newUser.save((err, user) => {

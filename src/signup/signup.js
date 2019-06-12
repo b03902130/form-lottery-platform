@@ -130,40 +130,22 @@ class SignUp extends Component {
             password: '',
             confPass: '',
             email: '',
-
-          });
-        } else if ( json.message === 'Error: Account Already Exists') {
-          this.setState({
-            signInLoading: false,
-            show: true,
-            signupStatus: 'warning',
-            signUpMessage: 'Account already Exists.',  
-            name: '',
-            password: '',
-            confPass: '',
-            email: '',
-          });
-        } else if( json.message === 'Error: Server Error') {
-          this.setState({
-            signInLoading: false,
-            show: true,
-            signupStatus: 'danger',
-            signUpMessage: 'Unexpected error. Please try again later.',
-            name: '',
-            password: '',
-            confPass: '',
-            email: '',
-
           });
         }
-
-
+      }).
+      catch(err => {
+        this.setState({
+          signInLoading: false,
+          show: true,
+          signupStatus: 'danger',
+          signUpMessage: err.response.data.message,  
+          name: '',
+          password: '',
+          confPass: '',
+          email: '',
+        });
       })
-
   }
-
-
-
 
   render() {
     return (
